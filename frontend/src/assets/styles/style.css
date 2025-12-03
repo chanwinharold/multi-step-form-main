@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: Ubuntu;
+    src: url(../fonts/Ubuntu-Regular.ttf);
+}
+
+@theme {
+    /* Primary */
+    --color-primary-blue-950: hsl(213, 96%, 18%);
+    --color-primary-purple-600: hsl(243, 100%, 62%);
+    --color-primary-blue-300: hsl(228, 100%, 84%);
+    --color-primary-blue-200: hsl(206, 94%, 87%);
+    --color-primary-red-500: hsl(354, 84%, 57%);
+
+    /* Neutral */
+    --color-neutral-grey-500: hsl(231, 11%, 63%);
+    --color-neutral-purple-200: hsl(229, 24%, 87%);
+    --color-neutral-blue-100: hsl(218, 100%, 97%);
+    --color-neutral-blue-50: hsl(231, 100%, 99%);
+    --color-neutral-white: hsl(0, 100%, 100%);
+
+    /* Typography */
+    --font-weight-light: 400;
+    --font-weight-regular: 500;
+    --font-weight-bold: 700;
+
+    --font-ubuntu: Ubuntu, monospace, Arial, sans-serif;
+
+
+}
+
+@layer base {
+    :root {
+        font-size: 16px;
+        font-family: var(--font-ubuntu);
+    }
+
+    body {
+        max-width: 1440px;
+        min-height: 100vh;
+        background-color: var(--color-neutral-blue-100);
+    }
+
+    main {
+        width: min(100%, 800px);
+        min-height: 500px;
+        margin: auto;
+        padding: 1rem;
+        background-color: var(--color-neutral-white);
+        box-shadow: rgba(0, 0, 0, 0.1) 0 20px 25px -5px, rgba(0, 0, 0, 0.04) 0 10px 10px -5px;
+        border-radius: 0.75rem;
+        -webkit-border-radius: 0.75rem;
+        -moz-border-radius: 0.75rem;
+        -ms-border-radius: 0.75rem;
+        -o-border-radius: 0.75rem;
+
+        display: flex;
+        gap: 1rem;
+
+        body:has(&) {
+            display: grid;
+            place-items: center;
+            align-content: center;
+        }
+    }
+}
+
+@layer components {
+    .bg-sidebar-img {
+        background: url(../images/bg-sidebar-desktop.svg) center;
+        background-size: cover;
+    }
+
+    .section-one {
+        main:has(&) 
+        section:first-child 
+        article:first-child
+        div:first-child {
+            color: var(--color-primary-blue-950);
+            border-color: transparent !important;
+            background-color: var(--color-primary-blue-200);
+        }
+    }
+    .section-two {
+        main:has(&) 
+        section:first-child 
+        article:nth-child(2)
+        div:first-child {
+            color: var(--color-primary-blue-950);
+            border-color: transparent !important;
+            background-color: var(--color-primary-blue-200);
+        }
+    }
+
+    .input-field {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        color: var(--color-primary-blue-950);
+        position: relative;
+
+        label {
+            text-transform: capitalize;
+        }
+
+        input {
+            font-weight: var(--font-weight-bold);
+            outline: none;
+            border: 1px solid var(--color-neutral-purple-200);
+
+            &:focus {
+                border-color: var(--color-neutral-grey-500);
+            }
+
+            &::placeholder {
+                font-size: 0.9em;
+                font-weight: 600;
+            }
+
+            height: 40px;
+            padding-inline: 1rem;
+            border-radius: 0.5rem;
+            -webkit-border-radius: 0.5rem;
+            -moz-border-radius: 0.5rem;
+            -ms-border-radius: 0.5rem;
+            -o-border-radius: 0.5rem;
+        }
+
+        .error {
+            position: absolute;
+            right: 0;
+            top: 6px;
+            font-weight: 600;
+            font-size: 0.8em;
+            color: var(--color-primary-red-500);
+        }
+    }
+
+    .btn-primary {
+        background-color: var(--color-primary-blue-950);
+        color: var(--color-neutral-white);
+        font-weight: var(--font-weight-bold);
+        padding-block: 0.75rem;
+        padding-inline: 1.5rem;
+        width: fit-content;
+        border-radius: 0.5rem;
+        -webkit-border-radius: 0.5rem;
+        -moz-border-radius: 0.5rem;
+        -ms-border-radius: 0.5rem;
+        -o-border-radius: 0.5rem;
+        outline: none;
+        cursor: pointer;
+
+        &:is(:hover, :focus, :active) {
+            background-color: var(--color-primary-purple-600);
+        }
+
+        transition: background-color 200ms ease-out;
+        -webkit-transition: background-color 200ms ease-out;
+        -moz-transition: background-color 200ms ease-out;
+        -ms-transition: background-color 200ms ease-out;
+        -o-transition: background-color 200ms ease-out;
+    }
+}
