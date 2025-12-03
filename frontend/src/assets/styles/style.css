@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "daisyui";
 
 @font-face {
     font-family: Ubuntu;
@@ -43,17 +44,17 @@
     }
 
     main {
-        width: min(100%, 800px);
+        width: min(100%, 850px);
         min-height: 500px;
         margin: auto;
         padding: 1rem;
         background-color: var(--color-neutral-white);
         box-shadow: rgba(0, 0, 0, 0.1) 0 20px 25px -5px, rgba(0, 0, 0, 0.04) 0 10px 10px -5px;
-        border-radius: 0.75rem;
+        -o-border-radius: 0.75rem;
         -webkit-border-radius: 0.75rem;
         -moz-border-radius: 0.75rem;
         -ms-border-radius: 0.75rem;
-        -o-border-radius: 0.75rem;
+        border-radius: 0.75rem;
 
         display: flex;
         gap: 1rem;
@@ -73,20 +74,15 @@
     }
 
     .section-one {
-        main:has(&) 
-        section:first-child 
-        article:first-child
-        div:first-child {
+        main:has(&) section:first-child article:first-child div:first-child {
             color: var(--color-primary-blue-950);
             border-color: transparent !important;
             background-color: var(--color-primary-blue-200);
         }
     }
+
     .section-two {
-        main:has(&) 
-        section:first-child 
-        article:nth-child(2)
-        div:first-child {
+        main:has(&) section:first-child article:nth-child(2) div:first-child {
             color: var(--color-primary-blue-950);
             border-color: transparent !important;
             background-color: var(--color-primary-blue-200);
@@ -121,11 +117,11 @@
 
             height: 40px;
             padding-inline: 1rem;
-            border-radius: 0.5rem;
+            -o-border-radius: 0.5rem;
             -webkit-border-radius: 0.5rem;
             -moz-border-radius: 0.5rem;
             -ms-border-radius: 0.5rem;
-            -o-border-radius: 0.5rem;
+            border-radius: 0.5rem;
         }
 
         .error {
@@ -142,14 +138,15 @@
         background-color: var(--color-primary-blue-950);
         color: var(--color-neutral-white);
         font-weight: var(--font-weight-bold);
-        padding-block: 0.75rem;
+        padding-block: 0.25rem;
         padding-inline: 1.5rem;
         width: fit-content;
-        border-radius: 0.5rem;
+        height: 40px;
+        -o-border-radius: 0.5rem;
         -webkit-border-radius: 0.5rem;
         -moz-border-radius: 0.5rem;
         -ms-border-radius: 0.5rem;
-        -o-border-radius: 0.5rem;
+        border-radius: 0.5rem;
         outline: none;
         cursor: pointer;
 
@@ -157,10 +154,40 @@
             background-color: var(--color-primary-purple-600);
         }
 
-        transition: background-color 200ms ease-out;
+        -o-transition: background-color 200ms ease-out;
         -webkit-transition: background-color 200ms ease-out;
         -moz-transition: background-color 200ms ease-out;
         -ms-transition: background-color 200ms ease-out;
-        -o-transition: background-color 200ms ease-out;
+        transition: background-color 200ms ease-out;
+    }
+
+    .not-visible {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+    }
+
+    .on-checked {
+        label:has(&) {
+            border: 1px groove var(--color-neutral-purple-200);
+        }
+
+        &:checked {
+            label:has(&) {
+                background-color: var(--color-neutral-blue-50);
+                border: 1px groove var(--color-primary-purple-600);
+            }
+        }
+
+        &:hover {
+            label:has(&) {
+                border: 1px groove var(--color-primary-purple-600);
+            }
+        }
     }
 }
