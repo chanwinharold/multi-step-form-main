@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router";
+import AllInfoContext from "../../contexts/AllInfoContext";
 
 import iconArcade from "../../assets/images/icon-arcade.svg";
-import iconAdvenced from "../../assets/images/icon-advanced.svg";
+import iconAdvanced from "../../assets/images/icon-advanced.svg";
 import iconPro from "../../assets/images/icon-pro.svg";
 
 function Plan() {
@@ -13,9 +14,9 @@ function Plan() {
       imageUrl: iconArcade,
     },
     {
-      title: "Advenced",
+      title: "Advanced",
       price: 12,
-      imageUrl: iconAdvenced,
+      imageUrl: iconAdvanced,
     },
     {
       title: "Pro",
@@ -25,6 +26,21 @@ function Plan() {
   ];
 
   const [checked, setChecked] = useState(false);
+  const [plan, setPlan] = useState(Plans[0]);
+  const [_, setPersonalInfo] = useContext(AllInfoContext);
+  const Navigate = useNavigate()
+  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setPersonalInfo(prevState => (
+      {
+        ...prevState,
+        "plan_option" : plan,
+        "period_billing" : checked ? "Yearly" : "Monthly"
+      }
+    ));
+    Navigate("/addon");
+  }
 
   return (
     <section className="section-two px-16 pt-6 pb-4 flex flex-col gap-8">
@@ -36,15 +52,17 @@ function Plan() {
           You have the option of monthly or yearly billing.
         </p>
       </header>
-      <form noValidate={true} className="h-full grid">
+      <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
         <fieldset className="flex gap-4">
           <legend className="not-visible">Plan options</legend>
           {Plans.map((plan) => (
             <Formula
               key={plan.title}
+              plan_={plan}
               title={plan.title}
               price={plan.price}
               imgUrl={plan.imageUrl}
+              setter={setPlan}
             />
           ))}
         </fieldset>
@@ -52,9 +70,7 @@ function Plan() {
           <legend className="not-visible">Period billing choice</legend>
           <strong
             onClick={() => setChecked(false)}
-            className={`cursor-pointer ${
-              !checked ? "text-primary-blue-950" : "text-neutral-grey-500"
-            }`}
+            className={`cursor-pointer ${!checked ? "text-primary-blue-950" : "text-neutral-grey-500"}`}
           >
             Monthly
           </strong>
@@ -93,7 +109,7 @@ function Plan() {
 
 export default Plan;
 
-const Formula = ({ title, price, imgUrl }) => {
+const Formula = ({ plan_, title, price, imgUrl, setter }) => {
   return (
     <label
       className="w-[125px] h-[150px] grid justify-between px-4 pt-6 pb-3 rounded-md cursor-pointer transition-all duration-300"
@@ -104,6 +120,8 @@ const Formula = ({ title, price, imgUrl }) => {
         type="radio"
         name={"plan"}
         value={title}
+        defaultChecked={title==="Arcade"}
+        onChange={() => setter(plan_)}
         id={title}
       />
       <img src={imgUrl} alt={title} />

@@ -2,6 +2,7 @@ import "./assets/styles/style.css";
 import Info from "./components/Info/Info";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Plan from "./components/Plan/Plan";
+import Addon from "./components/Addon/Addon";
 
 import AllInfoContext from "./contexts/AllInfoContext";
 import { useState, useEffect } from "react";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/plan",
         element: <Plan />,
+      },
+      {
+        path: "/addon",
+        element: <Addon />
       }
     ]
   }
@@ -39,11 +44,7 @@ function App() {
   const [personalInfo, setPersonalInfo] = useState(null);
   useEffect(() => {
     if (personalInfo) {
-      alert(`
-        Name : ${personalInfo.name}
-        Email : ${personalInfo.email}
-        Tel : ${personalInfo.tel}
-      `);
+      console.log(personalInfo);
     }
   }, [personalInfo]);
   return (

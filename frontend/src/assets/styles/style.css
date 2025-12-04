@@ -38,7 +38,6 @@
     }
 
     body {
-        max-width: 1440px;
         min-height: 100vh;
         background-color: var(--color-neutral-blue-100);
     }
