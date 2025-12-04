@@ -79,7 +79,6 @@
             background-color: var(--color-primary-blue-200);
         }
     }
-
     .section-two {
         main:has(&) section:first-child article:nth-child(2) div:first-child {
             color: var(--color-primary-blue-950);
@@ -87,6 +86,14 @@
             background-color: var(--color-primary-blue-200);
         }
     }
+    .section-three {
+        main:has(&) section:first-child article:nth-child(3) div:first-child {
+            color: var(--color-primary-blue-950);
+            border-color: transparent !important;
+            background-color: var(--color-primary-blue-200);
+        }
+    }
+
 
     .input-field {
         width: 100%;

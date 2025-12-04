@@ -79,7 +79,7 @@ function Plan() {
               type="checkbox"
               checked={checked}
               onChange={() => setChecked((v) => !v)}
-              className="toggle checked:bg-primary-purple-600 bg-primary-blue-950 text-white"
+              className="toggle bg-primary-blue-950 text-white"
             />
           </label>
           <strong

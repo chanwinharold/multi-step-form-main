@@ -19,7 +19,7 @@ function Sidebar() {
   ];
 
   return (
-    <section className="w-[250px] min-h-[500px] flex flex-col gap-6 bg-sidebar-img rounded-xl px-8 py-10">
+    <section className="min-w-[250px] min-h-[500px] flex flex-col gap-6 bg-sidebar-img rounded-xl px-8 py-10">
       {Steps.map(step => (
         <Step key={step.number} number={step.number} title={step.title} />
       ))}
