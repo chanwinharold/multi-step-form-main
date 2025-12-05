@@ -1,32 +1,34 @@
-import React, { useState, useContext } from 'react'
-import { Link } from 'react-router';
-import AllInfoContext from '../../contexts/AllInfoContext';
+import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router";
+import AllInfoContext from "../../contexts/AllInfoContext";
 
 function Addon() {
   const Addons = [
     {
-      title : "Online service",
-      desc : "Access to multiplayer games",
-      monthly_price : 1,
-      yearly_price : 10
+      title: "Online service",
+      desc: "Access to multiplayer games",
+      monthly_price: 1,
+      yearly_price: 10,
     },
     {
-      title : "Larger storage",
-      desc : "Extra 1TB of cloud save",
-      monthly_price : 2,
-      yearly_price : 20
+      title: "Larger storage",
+      desc: "Extra 1TB of cloud save",
+      monthly_price: 2,
+      yearly_price: 20,
     },
     {
-      title : "Customizable profile",
-      desc : "Custom theme on your profile",
-      monthly_price : 2,
-      yearly_price : 20
-    }
-  ]
-  const [personalInfo, _] = useContext(AllInfoContext)
+      title: "Customizable profile",
+      desc: "Custom theme on your profile",
+      monthly_price: 2,
+      yearly_price: 20,
+    },
+  ];
+  const [personalInfo, _] = useContext(AllInfoContext);
+  const [addonsPicked, setAddonsPicked] = useState([]);
+  console.log(addonsPicked)
 
   return (
-    <section className='section-three w-full px-16 pt-6 pb-4 flex flex-col gap-8'>
+    <section className="section-three w-full px-16 pt-6 pb-4 flex flex-col gap-8">
       <header>
         <h1 className="text-3xl font-bold my-2 text-primary-blue-950">
           Pick add-ons
@@ -36,17 +38,18 @@ function Addon() {
         </p>
       </header>
       <form noValidate={true} className="h-full grid">
-        <fieldset className='grid gap-4'>
-          <legend className='not-visible'>Choose your add-ons</legend>
+        <fieldset className="grid gap-4">
+          <legend className="not-visible">Choose your add-ons</legend>
           {Addons.map((addon, index) => (
-            <Choice 
+            <Choice
               key={`${index}_${addon.title.replace(" ", "_")}`}
               addon={addon}
-              period={personalInfo ?  personalInfo.period_billing : "Monthly"}
+              period={personalInfo ? personalInfo.period_billing : "Monthly"}
+              setter={setAddonsPicked}
             />
           ))}
         </fieldset>
-        
+
         <div className="place-self-end w-full flex justify-between items-center">
           <Link
             to={"/plan"}
@@ -60,22 +63,36 @@ function Addon() {
         </div>
       </form>
     </section>
-  )
+  );
 }
 
 export default Addon;
 
-function Choice({addon, period}) {
-  const [checked, setChecked] = useState(false)
+function Choice({ addon, period, setter }) {
+  const [checked, setChecked] = useState(false);
+
+  // TODO -> Fonction à modifier / Mise en place du Hook Personalisé
+  const handleChange = () => {
+    setChecked((v) => !v)
+    setter(arr => [
+      ...arr,
+      addon
+    ])
+  };
 
   return (
-    <label className={`${checked ? "border-primary-purple-600" : null} hover:border-primary-purple-600 transition-all duration-300 rounded-md px-4 py-2 border border-neutral-purple-200 w-full flex justify-between items-center gap-8 cursor-pointer`} htmlFor={addon.title.replace(" ", "_")}>
-      <div className='flex gap-6 items-center'>
+    <label
+      className={`${
+        checked ? "border-primary-purple-600" : null
+      } hover:border-primary-purple-600 transition-all duration-300 rounded-md px-4 py-2 border border-neutral-purple-200 w-full flex justify-between items-center gap-8 cursor-pointer`}
+      htmlFor={addon.title.replace(" ", "_")}
+    >
+      <div className="flex gap-6 items-center">
         <input
           type="checkbox"
           name="Add_ons"
           value={addon.title}
-          onChange={()=>setChecked(v=>!v)}
+          onChange={handleChange}
           id={addon.title.replace(" ", "_")}
           className="on-checked checkbox bg-transparent border-neutral-purple-200 rounded-md checked:bg-primary-purple-600 checked:text-neutral-white"
         />
@@ -86,7 +103,12 @@ function Choice({addon, period}) {
           <p className="text-neutral-grey-500 text-sm">{addon.desc}</p>
         </div>
       </div>
-      <p className="text-primary-purple-600 text-sm">+${period==="Monthly" ? `${addon.monthly_price}/mo` : `${addon.yearly_price}/yr`}</p>
+      <p className="text-primary-purple-600 text-sm">
+        +$
+        {period === "Monthly"
+          ? `${addon.monthly_price}/mo`
+          : `${addon.yearly_price}/yr`}
+      </p>
     </label>
   );
 }
