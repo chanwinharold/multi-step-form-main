@@ -3,6 +3,7 @@ import Info from "./components/Info/Info";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Plan from "./components/Plan/Plan";
 import Addon from "./components/Addon/Addon";
+import Summary from "./components/Summary/Summary";
 
 import AllInfoContext from "./contexts/AllInfoContext";
 import { useState, useEffect } from "react";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/addon",
         element: <Addon />
+      },
+      {
+        path: "/summary",
+        element: <Summary />
       }
     ]
   }

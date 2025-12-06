@@ -1,5 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router";
 import AllInfoContext from "../../contexts/AllInfoContext";
 
 function Addon() {
@@ -23,9 +23,20 @@ function Addon() {
       yearly_price: 20,
     },
   ];
-  const [personalInfo, _] = useContext(AllInfoContext);
+  const [personalInfo, setPersonalInfo] = useContext(AllInfoContext);
   const [addonsPicked, setAddonsPicked] = useState([]);
-  console.log(addonsPicked)
+  const Navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPersonalInfo((prevState) => {
+      return {
+        ...prevState,
+        addons: addonsPicked,
+      };
+    });
+    Navigate("/summary");
+  };
 
   return (
     <section className="section-three w-full px-16 pt-6 pb-4 flex flex-col gap-8">
@@ -37,7 +48,7 @@ function Addon() {
           Add-ons help enhance your gaming experience
         </p>
       </header>
-      <form noValidate={true} className="h-full grid">
+      <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
         <fieldset className="grid gap-4">
           <legend className="not-visible">Choose your add-ons</legend>
           {Addons.map((addon, index) => (
@@ -71,13 +82,15 @@ export default Addon;
 function Choice({ addon, period, setter }) {
   const [checked, setChecked] = useState(false);
 
-  // TODO -> Fonction à modifier / Mise en place du Hook Personalisé
   const handleChange = () => {
-    setChecked((v) => !v)
-    setter(arr => [
-      ...arr,
-      addon
-    ])
+    setChecked((v) => !v);
+    setter((prevArr) => {
+      if (prevArr.filter((item) => item.title === addon.title).length > 0) {
+        return prevArr.filter((item) => item.title !== addon.title);
+      } else {
+        return [...prevArr, addon];
+      }
+    });
   };
 
   return (
