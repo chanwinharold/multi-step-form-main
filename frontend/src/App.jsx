@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Plan from "./components/Plan/Plan";
 import Addon from "./components/Addon/Addon";
 import Summary from "./components/Summary/Summary";
+import Final from "./components/Final/Final";
 
 import AllInfoContext from "./contexts/AllInfoContext";
 import { useState, useEffect } from "react";
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "/summary",
         element: <Summary />
+      },
+      {
+        path: "/final",
+        element: <Final />
       }
     ]
   }

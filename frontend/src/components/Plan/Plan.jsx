@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import AllInfoContext from "../../contexts/AllInfoContext";
 
@@ -32,13 +32,11 @@ function Plan() {
   
   const handleSubmit = (e) => {
     e.preventDefault()
-    setPersonalInfo(prevState => (
-      {
-        ...prevState,
-        "plan_option" : plan,
-        "period_billing" : checked ? "Yearly" : "Monthly"
-      }
-    ));
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      plan_option: plan,
+      period_billing: checked ? "Yearly" : "Monthly",
+    }));
     Navigate("/addon");
   }
 

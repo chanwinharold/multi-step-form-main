@@ -1,11 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@font-face {
-    font-family: Ubuntu;
-    src: url(../fonts/Ubuntu-Regular.ttf);
-}
-
 @theme {
     /* Primary */
     --color-primary-blue-950: hsl(213, 96%, 18%);
