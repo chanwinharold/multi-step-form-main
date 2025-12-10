@@ -1,15 +1,16 @@
 const express = require("express");
 const cors = require("cors");
-const sqlite = require("sqlite3");
+const userRoutes = require("./routes/user");
 
 const app = express();
-
 
 app.use(cors());
 app.use(express.json());
 
-app.use((req, res) => {
-    res.json({message : "Application en cours !"});
+app.use("/", userRoutes);
+
+app.use((_, res) => {
+    res.status(404).json({message : "Routes Introuvables !"});
 });
 
 module.exports = app;
