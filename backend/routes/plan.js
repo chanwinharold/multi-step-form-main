@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router()
-const {createPlan} = require("../controllers/plan")
+const {addPlan} = require("../controllers/plan")
 
-router.post("/plan", createPlan);
+router.post("/plan", addPlan);
 
 module.exports = router;
