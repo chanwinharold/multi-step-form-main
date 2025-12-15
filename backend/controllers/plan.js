@@ -20,10 +20,10 @@ exports.addPlan = (req, res, next) => {
         WHERE id_user = ?
     `)
 
-    db.run(query_1, [req.body.plan_option.title, 2], 
+    db.run(query_1, [req.body.plan_option.title, req.auth.id_user], 
         (error) => {
             if (error) res.status(400).json({error});          
-            db.run(query_2, [req.body.period_billing, 2],
+            db.run(query_2, [req.body.period_billing, req.auth.id_user],
                 (error) => {
                   if (error) res.status(400).json({ error });
                   res.status(201).json({message : "Plan added successfully !"});

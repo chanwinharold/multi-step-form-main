@@ -53,3 +53,10 @@ INSERT INTO Addons(title, description, price_monthly, price_yearly)
 VALUES  ('Online service', 'Access to multiplayer games', 1, 10),
         ('Larger storage', 'Extra 1TB of cloud save', 2, 20),
         ('Customizable profile', 'Custom theme on your profile', 2, 20);
+
+SELECT *
+FROM Users
+INNER JOIN "Plans" USING(id_plan)
+INNER JOIN "ChoicesAddons" USING(id_user)
+INNER JOIN "Addons" USING(id_addon)
+INNER JOIN "Periods" USING(id_period);

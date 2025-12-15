@@ -1,8 +1,10 @@
 const db = require("../models/DB");
+const jwt = require("jsonwebtoken");
+require("dotenv").config({path: "../.env"});
 
 exports.createUser = (req, res, next) => {
   delete req.body.id;
-  const query = `
+  let query = `
             INSERT INTO Users(name, email, tel, id_plan, id_period)
             VALUES (?, ?, ?, NULL, NULL)
         `;
@@ -10,6 +12,16 @@ exports.createUser = (req, res, next) => {
     if (error) {
       res.status(400).json({ error });
     }
-    res.status(201).json({ message: "User informations saved successfully !" });
+
+    query = `SELECT id_user FROM Users WHERE email = ?`
+    db.get(query, [req.body.email], 
+      (error, result) => {
+        if (error) {
+          res.status(400).json({ error });
+        }
+        const token = jwt.sign(result.id_user, process.env.MY_SECRET_JWT);
+        res.status(201).cookie("token", token, {httpOnly: true}).json({message : "User added successfully !"});
+      }
+    )
   });
 };
