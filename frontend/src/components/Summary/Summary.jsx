@@ -17,8 +17,8 @@ function Summary() {
   });
 
   const total = personalInfo.period_billing==="Monthly" 
-  ? (personalInfo.plan_option.price +  total_month) 
-  : (personalInfo.plan_option.price + total_year)
+  ? (personalInfo.plan_option.price_monthly +  total_month) 
+  : (personalInfo.plan_option.price_yearly + total_year)
 
   const handleClick = (e) => {
     e.preventDefault()
@@ -48,7 +48,7 @@ function Summary() {
               </Link>
             </div>
             <strong className="text-primary-blue-950 font-bold text-lg">
-              {`$${personalInfo.plan_option.price}/${
+              {`$${personalInfo.period_billing === "Monthly" ? personalInfo.plan_option.price_monthly : personalInfo.plan_option.price_yearly}/${
                 personalInfo.period_billing === "Monthly" ? "mo" : "yr"
               }`}
             </strong>

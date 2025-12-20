@@ -10,17 +10,20 @@ function Plan() {
   const Plans = [
     {
       title: "Arcade",
-      price: 9,
+      price_monthly: 9,
+      price_yearly: 90,
       imageUrl: iconArcade,
     },
     {
       title: "Advanced",
-      price: 12,
+      price_monthly: 12,
+      price_yearly: 120,
       imageUrl: iconAdvanced,
     },
     {
       title: "Pro",
-      price: 15,
+      price_monthly: 15,
+      price_yearly: 150,
       imageUrl: iconPro,
     },
   ];
@@ -58,7 +61,9 @@ function Plan() {
               key={plan.title}
               plan_={plan}
               title={plan.title}
-              price={plan.price}
+              price_monthly={plan.price_monthly}
+              price_yearly={plan.price_yearly}
+              period={checked}
               imgUrl={plan.imageUrl}
               setter={setPlan}
             />
@@ -107,10 +112,10 @@ function Plan() {
 
 export default Plan;
 
-const Formula = ({ plan_, title, price, imgUrl, setter }) => {
+const Formula = ({ plan_, title, price_monthly, price_yearly, period, imgUrl, setter }) => {
   return (
     <label
-      className="w-[125px] h-[150px] grid justify-between px-4 pt-6 pb-3 rounded-md cursor-pointer transition-all duration-300"
+      className="w-[125px] h-[175px] grid justify-between px-4 pt-6 pb-3 rounded-md cursor-pointer transition-all duration-300"
       htmlFor={title}
     >
       <input
@@ -127,8 +132,11 @@ const Formula = ({ plan_, title, price, imgUrl, setter }) => {
       <div className="flex flex-col place-self-end">
         <strong className="font-bold text-primary-blue-950">{title}</strong>
         <em className="not-italic text-neutral-grey-500 text-sm">
-          ${price}/mo
+          {period
+          ? `$${price_yearly}/yr`
+          : `$${price_monthly}/mo`}
         </em>
+        {period && <em className="not-italic text-primary-blue-950 text-sm">2 months free</em>}
       </div>
     </label>
   );
