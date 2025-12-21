@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import AllInfoContext from "../../contexts/AllInfoContext";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 function Info() {
   const [nameError, setNameError] = useState("");
@@ -57,11 +58,22 @@ function Info() {
         telError==="" && tel!==""
     ) {
         setPersonalInfo({
-            name: name,
-            email: email,
-            tel: tel
-        })
-        Navigate("/plan");
+          name: name,
+          email: email,
+          tel: tel,
+        });
+
+        axios.post("/api/user", {
+          name: name,
+          email: email,
+          tel: tel,
+        }).then(response => {
+          console.log(response)
+          Navigate("/plan");
+        }).catch(error => {
+          console.log(error);
+        });
+
     } else {
         handleChangeName(name);
         handleChangeEmail(email);
