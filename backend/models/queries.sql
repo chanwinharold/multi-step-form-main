@@ -41,8 +41,7 @@ CREATE TABLE ChoicesAddons(
 );
 
 INSERT INTO Periods(name)
-VALUES  ("Monthly"),
-        ("Yearly");
+VALUES  ('Monthly'), ('Yearly');
 
 INSERT INTO Plans(title, imgUrl, price_monthly, price_yearly)
 VALUES  ('Arcade', 'icon-arcade.svg', 9, 90),
