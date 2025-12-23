@@ -1,49 +1,25 @@
-import { useState, useContext } from "react";
+import {useState, useEffect} from "react";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
-import AllInfoContext from "../../contexts/AllInfoContext";
-
-import iconArcade from "../../assets/images/icon-arcade.svg";
-import iconAdvanced from "../../assets/images/icon-advanced.svg";
-import iconPro from "../../assets/images/icon-pro.svg";
 
 function Plan() {
-    const Plans = [
-        {
-            title: "Arcade",
-            price_monthly: 9,
-            price_yearly: 90,
-            imageUrl: iconArcade,
-        },
-        {
-            title: "Advanced",
-            price_monthly: 12,
-            price_yearly: 120,
-            imageUrl: iconAdvanced,
-        },
-        {
-            title: "Pro",
-            price_monthly: 15,
-            price_yearly: 150,
-            imageUrl: iconPro,
-        },
-    ];
-
+    const [Plans, setPlans] = useState([]);
     const [checked, setChecked] = useState(false);
-    const [plan, setPlan] = useState(Plans[0]);
+    const [planOptions, setPlanOptions] = useState(Plans[0]);
     const [errorMessage, setErrorMessage] = useState(null);
-    const [_, setPersonalInfo] = useContext(AllInfoContext);
     const Navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get("/api/plan")
+            .then(response => setPlans(response.data))
+            .catch(error => console.error('Error fetching plans:', error));
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setPersonalInfo((prevState) => ({
-            ...prevState,
-            plan_option: plan,
-            period_billing: checked ? "Yearly" : "Monthly",
-        }));
+
         axios.post("/api/plan", {
-            plan_option: plan,
+            plan_option: planOptions,
             period_billing: checked ? "Yearly" : "Monthly",
         }).then(() => {
             Navigate("/addon");
@@ -66,16 +42,12 @@ function Plan() {
             <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
                 <fieldset className="flex gap-4">
                     <legend className="not-visible">Plan options</legend>
-                    {Plans.map((plan) => (
+                    {Plans.map((eachPlan) => (
                         <Formula
-                            key={plan.title}
-                            plan_={plan}
-                            title={plan.title}
-                            price_monthly={plan.price_monthly}
-                            price_yearly={plan.price_yearly}
+                            key={eachPlan.id_plan}
+                            plan={eachPlan}
                             period={checked}
-                            imgUrl={plan.imageUrl}
-                            setter={setPlan}
+                            setter={setPlanOptions}
                         />
                     ))}
                 </fieldset>
@@ -132,29 +104,29 @@ function Plan() {
 
 export default Plan;
 
-const Formula = ({ plan_, title, price_monthly, price_yearly, period, imgUrl, setter }) => {
+const Formula = ({ plan, period, setter }) => {
     return (
         <label
             className="w-[125px] h-[175px] grid justify-between px-4 pt-6 pb-3 rounded-md cursor-pointer transition-all duration-300"
-            htmlFor={title}
+            htmlFor={plan.id_plan}
         >
             <input
                 className="hidden on-checked"
                 type="radio"
                 name={"plan"}
-                value={title}
-                defaultChecked={title==="Arcade"}
-                onChange={() => setter(plan_)}
-                id={title}
+                value={plan.title}
+                defaultChecked={plan.title==="Arcade"}
+                onChange={() => setter(plan)}
+                id={plan.id_plan}
             />
-            <img src={imgUrl} alt={title} />
+            <img src={`/icons/${plan.imgUrl}`} alt={plan.title} />
 
             <div className="flex flex-col place-self-end">
-                <strong className="font-bold text-primary-blue-950">{title}</strong>
+                <strong className="font-bold text-primary-blue-950">{plan.title}</strong>
                 <em className="not-italic text-neutral-grey-500 text-sm">
                     {period
-                        ? `$${price_yearly}/yr`
-                        : `$${price_monthly}/mo`}
+                        ? `$${plan.price_yearly}/yr`
+                        : `$${plan.price_monthly}/mo`}
                 </em>
                 {period && <em className="not-italic text-primary-blue-950 text-sm">2 months free</em>}
             </div>

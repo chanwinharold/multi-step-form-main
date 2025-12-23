@@ -38,5 +38,13 @@ exports.addAddon = (req, res, _) => {
 };
 
 exports.showAddons = (req, res, _) => {
-
+    let query = `SELECT * FROM Addons`
+    db.all(query, (error, result) => {
+        if (error) res.status(500).json({ error });
+        query = `SELECT Periods.name FROM Periods INNER JOIN Users USING(id_period) WHERE Users.id_user = ?`
+        db.get(query, [req.auth.id_user], (error, period) => {
+            if (error) res.status(500).json({ error });
+            res.status(200).json([result, period.name]);
+        })
+    })
 }

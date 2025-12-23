@@ -4,6 +4,6 @@ const {addAddon, showAddons} = require("../controllers/addon");
 const auth = require("../middlewares/auth")
 
 router.post("/addon", auth, addAddon);
-router.get("/addon", showAddons);
+router.get("/addon", auth, showAddons);
 
 module.exports = router;

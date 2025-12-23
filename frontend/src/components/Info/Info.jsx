@@ -1,17 +1,15 @@
-import { useContext, useState } from "react";
-import AllInfoContext from "../../contexts/AllInfoContext";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
 function Info() {
-    const [nameError, setNameError] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [telError, setTelError] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
+    const [nameError, setNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [telError, setTelError] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
-    const [_, setPersonalInfo] = useContext(AllInfoContext);
     const Navigate = useNavigate()
 
     const handleChangeName = (value) => {
@@ -58,11 +56,6 @@ function Info() {
             emailError==="" && email!=="" &&
             telError==="" && tel!==""
         ) {
-            setPersonalInfo({
-                name: name,
-                email: email,
-                tel: tel,
-            });
 
             axios.post("/api/user", {
                 name: name,

@@ -1,42 +1,25 @@
-import React, { useState, useContext } from "react";
+import React, {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router";
 import axios from "axios";
-import AllInfoContext from "../../contexts/AllInfoContext";
 
 function Addon() {
-    const Addons = [
-        {
-            title: "Online service",
-            desc: "Access to multiplayer games",
-            monthly_price: 1,
-            yearly_price: 10,
-        },
-        {
-            title: "Larger storage",
-            desc: "Extra 1TB of cloud save",
-            monthly_price: 2,
-            yearly_price: 20,
-        },
-        {
-            title: "Customizable profile",
-            desc: "Custom theme on your profile",
-            monthly_price: 2,
-            yearly_price: 20,
-        },
-    ];
-    const [personalInfo, setPersonalInfo] = useContext(AllInfoContext);
+    const [Addons, setAddons] = useState([]);
+    const [period, setPeriod] = useState(null);
     const [addonsPicked, setAddonsPicked] = useState([]);
     const [errorMessage, setErrorMessage] = useState(null);
     const Navigate = useNavigate();
 
+    useEffect(() => {
+        axios.get('/api/addon')
+            .then(response => {
+                setAddons(response.data[0]);
+                setPeriod(response.data[1]);
+            })
+            .catch(error => console.error('Error fetching addons:', error));
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPersonalInfo((prevState) => {
-            return {
-                ...prevState,
-                addons: addonsPicked,
-            };
-        });
 
         axios.post("/api/addon", {
             addons: addonsPicked
@@ -61,11 +44,11 @@ function Addon() {
             <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
                 <fieldset className="grid gap-4">
                     <legend className="not-visible">Choose your add-ons</legend>
-                    {Addons.map((addon, index) => (
+                    {Addons.map((eachAddon) => (
                         <Choice
-                            key={`${index}_${addon.title.replace(" ", "_")}`}
-                            addon={addon}
-                            period={personalInfo ? personalInfo.period_billing : "Monthly"}
+                            key={eachAddon.id_addon}
+                            addon={eachAddon}
+                            period={period}
                             setter={setAddonsPicked}
                         />
                     ))}
@@ -119,7 +102,7 @@ function Choice({ addon, period, setter }) {
             className={`${
                 checked ? "border-primary-purple-600" : null
             } hover:border-primary-purple-600 transition-all duration-300 rounded-md px-4 py-2 border border-neutral-purple-200 w-full flex justify-between items-center gap-8 cursor-pointer`}
-            htmlFor={addon.title.replace(" ", "_")}
+            htmlFor={addon.id_addon}
         >
             <div className="flex gap-6 items-center">
                 <input
@@ -127,21 +110,21 @@ function Choice({ addon, period, setter }) {
                     name="Add_ons"
                     value={addon.title}
                     onChange={handleChange}
-                    id={addon.title.replace(" ", "_")}
+                    id={addon.id_addon}
                     className="on-checked checkbox bg-transparent border-neutral-purple-200 rounded-md checked:bg-primary-purple-600 checked:text-neutral-white"
                 />
                 <div className="grid">
                     <strong className="text-primary-blue-950 text-md font-bold">
-                        {addon.title}{" "}
+                        {addon.title}
                     </strong>
-                    <p className="text-neutral-grey-500 text-sm">{addon.desc}</p>
+                    <p className="text-neutral-grey-500 text-sm">{addon.description}</p>
                 </div>
             </div>
             <p className="text-primary-purple-600 text-sm">
                 +$
                 {period === "Monthly"
-                    ? `${addon.monthly_price}/mo`
-                    : `${addon.yearly_price}/yr`}
+                    ? `${addon.price_monthly}/mo`
+                    : `${addon.price_yearly}/yr`}
             </p>
         </label>
     );

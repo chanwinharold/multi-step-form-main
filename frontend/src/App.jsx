@@ -5,10 +5,6 @@ import Plan from "./components/Plan/Plan";
 import Addon from "./components/Addon/Addon";
 import Summary from "./components/Summary/Summary";
 import Final from "./components/Final/Final";
-
-import AllInfoContext from "./contexts/AllInfoContext";
-import { useState, useEffect } from "react";
-
 import { createBrowserRouter, Outlet } from "react-router";
 import { RouterProvider as RP } from "react-router/dom";
 
@@ -51,19 +47,7 @@ function Layout() {
 }
 
 function App() {
-    const [personalInfo, setPersonalInfo] = useState(null);
-    useEffect(() => {
-        if (personalInfo) {
-            console.log(personalInfo);
-        }
-    }, [personalInfo]);
-    return (
-        <>
-            <AllInfoContext.Provider value={[personalInfo, setPersonalInfo]}>
-                <RP router={router} />
-            </AllInfoContext.Provider>
-        </>
-    );
+    return <RP router={router} />
 }
 
 export default App;
