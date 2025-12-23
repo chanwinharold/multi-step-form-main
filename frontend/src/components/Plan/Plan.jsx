@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router";
+import axios from "axios";
 import AllInfoContext from "../../contexts/AllInfoContext";
 
 import iconArcade from "../../assets/images/icon-arcade.svg";
@@ -30,6 +31,7 @@ function Plan() {
 
     const [checked, setChecked] = useState(false);
     const [plan, setPlan] = useState(Plans[0]);
+    const [errorMessage, setErrorMessage] = useState(null);
     const [_, setPersonalInfo] = useContext(AllInfoContext);
     const Navigate = useNavigate()
 
@@ -40,7 +42,15 @@ function Plan() {
             plan_option: plan,
             period_billing: checked ? "Yearly" : "Monthly",
         }));
-        Navigate("/addon");
+        axios.post("/api/plan", {
+            plan_option: plan,
+            period_billing: checked ? "Yearly" : "Monthly",
+        }).then(() => {
+            Navigate("/addon");
+        }).catch(error => {
+            setErrorMessage(error.response.data.message || error.message);
+            document.getElementById('my_modal_2').showModal()
+        });
     }
 
     return (
@@ -106,6 +116,16 @@ function Plan() {
                     </button>
                 </div>
             </form>
+
+            <dialog id="my_modal_2" className={'modal'}>
+                <div className="modal-box bg-primary-red-500">
+                    <h3 className="font-bold text-lg">Error</h3>
+                    <p className="py-4">{errorMessage}</p>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </section>
     );
 }

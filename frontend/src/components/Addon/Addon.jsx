@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router";
+import axios from "axios";
 import AllInfoContext from "../../contexts/AllInfoContext";
 
 function Addon() {
@@ -25,6 +26,7 @@ function Addon() {
     ];
     const [personalInfo, setPersonalInfo] = useContext(AllInfoContext);
     const [addonsPicked, setAddonsPicked] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
     const Navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -35,7 +37,15 @@ function Addon() {
                 addons: addonsPicked,
             };
         });
-        Navigate("/summary");
+
+        axios.post("/api/addon", {
+            addons: addonsPicked
+        }).then(() => {
+            Navigate("/summary");
+        }).catch(error => {
+            setErrorMessage(error.response.data.message || error.message);
+            document.getElementById('my_modal_2').showModal()
+        });
     };
 
     return (
@@ -73,6 +83,17 @@ function Addon() {
                     </button>
                 </div>
             </form>
+
+
+            <dialog id="my_modal_2" className={'modal'}>
+                <div className="modal-box bg-primary-red-500">
+                    <h3 className="font-bold text-lg">Error</h3>
+                    <p className="py-4">{errorMessage}</p>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </section>
     );
 }

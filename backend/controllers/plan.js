@@ -1,7 +1,7 @@
 const db = require("../models/DB");
 
-exports.addPlan = (req, res, next) => {
-    const query_1 = (`
+exports.addPlan = (req, res, _) => {
+    const query_1 = `
         UPDATE Users
         SET id_plan = (
             SELECT id_plan
@@ -9,7 +9,7 @@ exports.addPlan = (req, res, next) => {
             WHERE title = ?
         )
         WHERE id_user = ?
-    `);
+    `;
     const query_2 = (`
         UPDATE Users
         SET id_period = (
@@ -32,3 +32,8 @@ exports.addPlan = (req, res, next) => {
         }
     );
 };
+
+
+exports.showPlans = (req, res, _) => {
+
+}

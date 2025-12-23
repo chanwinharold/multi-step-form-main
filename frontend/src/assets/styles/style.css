@@ -21,7 +21,7 @@
     --font-weight-regular: 500;
     --font-weight-bold: 700;
 
-    --font-ubuntu: Ubuntu, monospace, Arial, sans-serif;
+    --font-ubuntu: Ubuntu;
 
 
 }
@@ -29,7 +29,7 @@
 @layer base {
     :root {
         font-size: 16px;
-        font-family: var(--font-ubuntu);
+        font-family: var(--font-ubuntu), monospace, Arial, sans-serif;
     }
 
     body {
@@ -44,10 +44,6 @@
         padding: 1rem;
         background-color: var(--color-neutral-white);
         box-shadow: rgba(0, 0, 0, 0.1) 0 20px 25px -5px, rgba(0, 0, 0, 0.04) 0 10px 10px -5px;
-        -o-border-radius: 0.75rem;
-        -webkit-border-radius: 0.75rem;
-        -moz-border-radius: 0.75rem;
-        -ms-border-radius: 0.75rem;
         border-radius: 0.75rem;
 
         display: flex;
@@ -125,10 +121,6 @@
 
             height: 40px;
             padding-inline: 1rem;
-            -o-border-radius: 0.5rem;
-            -webkit-border-radius: 0.5rem;
-            -moz-border-radius: 0.5rem;
-            -ms-border-radius: 0.5rem;
             border-radius: 0.5rem;
         }
 
@@ -150,10 +142,6 @@
         padding-inline: 1.5rem;
         width: fit-content;
         height: 40px;
-        -o-border-radius: 0.5rem;
-        -webkit-border-radius: 0.5rem;
-        -moz-border-radius: 0.5rem;
-        -ms-border-radius: 0.5rem;
         border-radius: 0.5rem;
         outline: none;
         cursor: pointer;
@@ -162,10 +150,6 @@
             background-color: var(--color-primary-purple-600);
         }
 
-        -o-transition: background-color 200ms ease-out;
-        -webkit-transition: background-color 200ms ease-out;
-        -moz-transition: background-color 200ms ease-out;
-        -ms-transition: background-color 200ms ease-out;
         transition: background-color 200ms ease-out;
     }
 

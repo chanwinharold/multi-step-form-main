@@ -56,6 +56,6 @@ VALUES  ('Online service', 'Access to multiplayer games', 1, 10),
 SELECT *
 FROM Users
 INNER JOIN "Plans" USING(id_plan)
-INNER JOIN "ChoicesAddons" USING(id_user)
-INNER JOIN "Addons" USING(id_addon)
+LEFT JOIN "ChoicesAddons" USING(id_user)
+LEFT JOIN "Addons" USING(id_addon)
 INNER JOIN "Periods" USING(id_period);

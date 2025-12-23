@@ -10,6 +10,7 @@ function Info() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [tel, setTel] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
     const [_, setPersonalInfo] = useContext(AllInfoContext);
     const Navigate = useNavigate()
 
@@ -67,11 +68,11 @@ function Info() {
                 name: name,
                 email: email,
                 tel: tel,
-            }).then(response => {
-                console.log(response)
+            }).then(() => {
                 Navigate("/plan");
             }).catch(error => {
-                console.log(error);
+                setErrorMessage(error.response.data.message || error.message);
+                document.getElementById('my_modal_2').showModal()
             });
 
         } else {
@@ -137,6 +138,17 @@ function Info() {
                     Next Step
                 </button>
             </form>
+
+
+            <dialog id="my_modal_2" className={'modal'}>
+                <div className="modal-box bg-primary-red-500">
+                    <h3 className="font-bold text-lg">Error</h3>
+                    <p className="py-4">{errorMessage}</p>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </section>
     );
 }
