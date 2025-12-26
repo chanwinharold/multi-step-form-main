@@ -10,7 +10,7 @@ exports.addAddon = (req, res, _) => {
             for (let i = 0; i < req.body.addons.length; i++) {
                 db.run(query, [req.auth.id_user, req.body.addons[i].title], (error) => {
                     if (error) {
-                        res.status(400).json({ error });
+                        res.status(500).json({ error });
                     }
                 });
             }
@@ -19,7 +19,7 @@ exports.addAddon = (req, res, _) => {
             query = `DELETE FROM ChoicesAddons WHERE id_user = ?`;
             db.run(query, [req.auth.id_user], (error) => {
                 if (error) {
-                    res.status(400).json({ error });
+                    res.status(500).json({ error });
                 }
                 query = `
                     INSERT INTO ChoicesAddons(id_user, id_addon)
@@ -27,7 +27,7 @@ exports.addAddon = (req, res, _) => {
                 for (let i = 0; i < req.body.addons.length; i++) {
                     db.run(query, [req.auth.id_user, req.body.addons[i].title], (error) => {
                         if (error) {
-                            res.status(400).json({ error });
+                            res.status(500).json({ error });
                         }
                     });
                 }

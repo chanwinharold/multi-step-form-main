@@ -1,21 +1,37 @@
 import { Link, useNavigate } from 'react-router';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function Summary() {
     const Navigate = useNavigate()
+    const [Data, setData] = useState(null);
 
-    // let total_month = 0;
-    // let total_year = 0;
+    useEffect(() => {
+        axios.get("/api/summary")
+            .then(response => {
+                setData(response.data)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }, []);
 
-    // personalInfo.addons.forEach(addon => {
-    //     total_month += addon.monthly_price
-    // });
-    // personalInfo.addons.forEach(addon => {
-    //     total_year += addon.yearly_price
-    // });
+    let total_month = 0;
+    let total_year = 0;
+    let total = 0
 
-    // const total = personalInfo.period_billing==="Monthly"
-    //     ? (personalInfo.plan_option.price_monthly +  total_month)
-    //     : (personalInfo.plan_option.price_yearly + total_year)
+    if (Data) {
+        Data.addons.forEach(addon => {
+            total_month += addon.price_monthly
+        });
+        Data.addons.forEach(addon => {
+            total_year += addon.price_yearly
+        });
+
+        total = Data.period.name==="Monthly"
+        ? (Data.plan.price_monthly + total_month)
+        : (Data.plan.price_yearly + total_year)
+    }
 
     const handleClick = (e) => {
         e.preventDefault()
@@ -32,48 +48,56 @@ function Summary() {
                     Double-check everything looks OK before confirming
                 </p>
             </header>
-            {/*<section className="h-full grid gap-4">*/}
-            {/*    <div className="grid bg-neutral-blue-100 p-6 rounded-md">*/}
-            {/*        <article className="flex justify-between items-center pb-6 border-b border-neutral-purple-200">*/}
-            {/*            <div className="flex flex-col">*/}
-            {/*                <strong className="text-primary-blue-950 font-bold text-lg">{`${personalInfo.plan_option.title} (${personalInfo.period_billing})`}</strong>*/}
-            {/*                <Link*/}
-            {/*                    className="text-neutral-grey-500 hover:text-primary-purple-600 underline"*/}
-            {/*                    to={"/plan"}*/}
-            {/*                >*/}
-            {/*                    Change*/}
-            {/*                </Link>*/}
-            {/*            </div>*/}
-            {/*            <strong className="text-primary-blue-950 font-bold text-lg">*/}
-            {/*                {`$${personalInfo.period_billing === "Monthly" ? personalInfo.plan_option.price_monthly : personalInfo.plan_option.price_yearly}/${*/}
-            {/*                    personalInfo.period_billing === "Monthly" ? "mo" : "yr"*/}
-            {/*                }`}*/}
-            {/*            </strong>*/}
-            {/*        </article>*/}
-            {/*        <article className="pt-6 flex flex-col gap-4">*/}
-            {/*            {personalInfo.addons.map((addon, index) => (*/}
-            {/*                <div key={index} className="flex justify-between items-center">*/}
-            {/*                    <span className="text-neutral-grey-500">{addon.title}</span>*/}
-            {/*                    <span className="text-primary-blue-950">*/}
-            {/*      {personalInfo.period_billing === "Monthly"*/}
-            {/*          ? `+$${addon.monthly_price}/mo`*/}
-            {/*          : `+$${addon.yearly_price}/yr`}*/}
-            {/*    </span>*/}
-            {/*                </div>*/}
-            {/*            ))}*/}
-            {/*        </article>*/}
-            {/*    </div>*/}
+            {
+                Data ?
+                    (
+                        <section className="h-full grid gap-4">
+                            <div className="grid bg-neutral-blue-100 p-6 rounded-md">
+                                <article className="flex justify-between items-center pb-6 border-b border-neutral-purple-200">
+                                    <div className="flex flex-col">
+                                        <strong className="text-primary-blue-950 font-bold text-lg">{`${Data.plan.title} (${Data.period.name})`}</strong>
+                                        <Link
+                                            className="text-neutral-grey-500 hover:text-primary-purple-600 underline"
+                                            to={"/plan"}
+                                        >
+                                            Change
+                                        </Link>
+                                    </div>
+                                    <strong className="text-primary-blue-950 font-bold text-lg">
+                                        {`$${Data.period.name === "Monthly" ? Data.plan.price_monthly : Data.plan.price_yearly}/${
+                                            Data.period.name === "Monthly" ? "mo" : "yr"
+                                        }`}
+                                    </strong>
+                                </article>
+                                <article className="pt-6 flex flex-col gap-4">
+                                    {Data.addons.map((addon) => (
+                                        <div key={addon.id_addon} className="flex justify-between items-center">
+                                            <span className="text-neutral-grey-500">{addon.title}</span>
+                                            <span className="text-primary-blue-950">
+                                                {Data.period.name === "Monthly"
+                                                    ? `+$${addon.price_monthly}/mo`
+                                                    : `+$${addon.price_yearly}/yr`
+                                                }
+                                            </span>
+                                        </div>
+                                    ))}
+                                </article>
+                            </div>
 
-            {/*    <article className="px-6 flex justify-between items-center">*/}
-            {/*        <p className="text-neutral-grey-500">*/}
-            {/*            Total{" "}*/}
-            {/*            {`(per ${*/}
-            {/*                personalInfo.period_billing === "Monthly" ? "month" : "year"*/}
-            {/*            })`}*/}
-            {/*        </p>*/}
-            {/*        <strong className='text-primary-purple-600 text-xl'>{`+$${total}/${personalInfo.period_billing === "Monthly" ? "mo" : "yr"}`}</strong>*/}
-            {/*    </article>*/}
-            {/*</section>*/}
+                            <article className="px-6 flex justify-between items-center">
+                                <p className="text-neutral-grey-500">
+                                    Total{" "}
+                                    {`(per ${
+                                        Data.period.name === "Monthly" ? "month" : "year"
+                                    })`}
+                                </p>
+                                <strong className='text-primary-purple-600 text-xl'>{`+$${total}/${Data.period.name === "Monthly" ? "mo" : "yr"}`}</strong>
+                            </article>
+                        </section>
+                    ) : (
+                        <p>Loading...</p>
+                    )
+            }
             <div className="place-self-end w-full flex justify-between items-center">
                 <Link
                     to={"/addon"}
