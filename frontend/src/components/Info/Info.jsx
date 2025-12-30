@@ -76,7 +76,7 @@ function Info() {
     };
 
     return (
-        <section className="section-one px-16 pt-6 pb-4 flex flex-col gap-8">
+        <section className="section-one mobile:px-16 pt-6 pb-4 flex flex-col gap-8 mobile-form">
             <header>
                 <h1 className="text-3xl font-bold my-2 text-primary-blue-950">
                     Personal info
@@ -85,7 +85,7 @@ function Info() {
                     Please provide your name, email address, and phone number.
                 </p>
             </header>
-            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
+            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid max-mobile:gap-6">
                 <div className="input-field">
                     <label htmlFor="name">Name</label>
                     <input
@@ -127,9 +127,11 @@ function Info() {
                     <span className="error">{telError}</span>
                 </div>
 
-                <button type="submit" className="btn-primary place-self-end">
-                    Next Step
-                </button>
+                <div className="max-mobile:pb-4 w-full flex flex-col place-self-end">
+                    <button type="submit" className="btn-primary self-end">
+                        Next Step
+                    </button>
+                </div>
             </form>
 
 

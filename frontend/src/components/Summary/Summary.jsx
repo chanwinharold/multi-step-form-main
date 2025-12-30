@@ -39,7 +39,7 @@ function Summary() {
     }
 
     return (
-        <section className="section-four w-full px-16 pt-6 pb-4 flex flex-col gap-8">
+        <section className="section-four mobile:w-full mobile:px-16 pt-6 pb-4 flex flex-col gap-8 mobile-form">
             <header>
                 <h1 className="text-3xl font-bold my-2 text-primary-blue-950">
                     Finishing up
@@ -98,7 +98,7 @@ function Summary() {
                         <p>Loading...</p>
                     )
             }
-            <div className="place-self-end w-full flex justify-between items-center">
+            <div className="max-mobile:pb-4 place-self-end w-full flex justify-between items-center">
                 <Link
                     to={"/addon"}
                     className="font-bold text-neutral-grey-500 hover:text-primary-blue-950 transition-colors duration-300"

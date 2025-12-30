@@ -19,7 +19,7 @@ function Sidebar() {
     ];
 
     return (
-        <section className="min-w-[250px] min-h-[500px] flex flex-col gap-6 bg-sidebar-img rounded-xl px-8 py-10">
+        <section className="min-w-[250px] mobile:min-h-[500px] flex mobile:flex-col gap-6 bg-sidebar-img mobile:rounded-xl px-8 py-10 mobile-sidebar">
             {Steps.map(step => (
                 <Step key={step.number} number={step.number} title={step.title} />
             ))}
@@ -35,7 +35,7 @@ function Step({ number, title }) {
             <div className="step-circle w-8 h-8 grid place-items-center content-center rounded-full border border-neutral-white">
                 <span className="font-bold text-sm">{number}</span>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col max-mobile:hidden">
                 <em className="not-italic uppercase font-light text-xs">Step {number}</em>
                 <strong className="uppercase font-bold text-sm">{title}</strong>
             </div>

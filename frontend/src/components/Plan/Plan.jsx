@@ -30,7 +30,7 @@ function Plan() {
     }
 
     return (
-        <section className="section-two px-16 pt-6 pb-4 flex flex-col gap-8">
+        <section className="section-two mobile:px-16 pt-6 pb-4 flex flex-col gap-8 mobile-form">
             <header>
                 <h1 className="text-3xl font-bold my-2 text-primary-blue-950">
                     Select your plan
@@ -39,8 +39,8 @@ function Plan() {
                     You have the option of monthly or yearly billing.
                 </p>
             </header>
-            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
-                <fieldset className="flex gap-4">
+            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid max-mobile:gap-8">
+                <fieldset className="flex mobile:flex-row flex-col gap-4">
                     <legend className="not-visible">Plan options</legend>
                     {Plans.map((eachPlan) => (
                         <Formula
@@ -76,7 +76,7 @@ function Plan() {
                         Yearly
                     </strong>
                 </fieldset>
-                <div className="place-self-end w-full flex justify-between items-center">
+                <div className="max-mobile:pb-4 place-self-end w-full flex justify-between items-center">
                     <Link
                         to={"/"}
                         className="font-bold text-neutral-grey-500 hover:text-primary-blue-950 transition-colors duration-300"
@@ -107,7 +107,7 @@ export default Plan;
 const Formula = ({ plan, period, setter }) => {
     return (
         <label
-            className="w-[125px] h-[175px] grid justify-between px-4 pt-6 pb-3 rounded-md cursor-pointer transition-all duration-300"
+            className="mobile:w-[125px] mobile:h-[175px] mobile:grid flex max-mobile:items-start max-mobile:gap-4 mobile:justify-between px-4 max-mobile:py-4 mobile:pt-6 mobile:pb-3 rounded-md cursor-pointer transition-all duration-300"
             htmlFor={plan.id_plan}
         >
             <input

@@ -32,7 +32,7 @@ function Addon() {
     };
 
     return (
-        <section className="section-three w-full px-16 pt-6 pb-4 flex flex-col gap-8">
+        <section className="section-three mobile:w-full mobile:px-16 pt-6 pb-4 flex flex-col gap-8 mobile-form">
             <header>
                 <h1 className="text-3xl font-bold my-2 text-primary-blue-950">
                     Pick add-ons
@@ -41,7 +41,7 @@ function Addon() {
                     Add-ons help enhance your gaming experience
                 </p>
             </header>
-            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid">
+            <form onSubmit={handleSubmit} noValidate={true} className="h-full grid max-mobile:gap-8">
                 <fieldset className="grid gap-4">
                     <legend className="not-visible">Choose your add-ons</legend>
                     {Addons.map((eachAddon) => (
@@ -54,7 +54,7 @@ function Addon() {
                     ))}
                 </fieldset>
 
-                <div className="place-self-end w-full flex justify-between items-center">
+                <div className="max-mobile:pb-4 place-self-end w-full flex justify-between items-center">
                     <Link
                         to={"/plan"}
                         className="font-bold text-neutral-grey-500 hover:text-primary-blue-950 transition-colors duration-300"
@@ -104,7 +104,7 @@ function Choice({ addon, period, setter }) {
             } hover:border-primary-purple-600 transition-all duration-300 rounded-md px-4 py-2 border border-neutral-purple-200 w-full flex justify-between items-center gap-8 cursor-pointer`}
             htmlFor={addon.id_addon}
         >
-            <div className="flex gap-6 items-center">
+            <div className="flex mobile:gap-6 gap-4 items-center">
                 <input
                     type="checkbox"
                     name="Add_ons"
