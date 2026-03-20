@@ -10,7 +10,7 @@ function Addon() {
     const Navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('/api/addon')
+        axios.get('https://multi-step-form-main-b5p1.vercel.app/api/addon')
             .then(response => {
                 setAddons(response.data[0]);
                 setPeriod(response.data[1]);
@@ -21,7 +21,7 @@ function Addon() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post("/api/addon", {
+        axios.post("https://multi-step-form-main-b5p1.vercel.app/api/addon", {
             addons: addonsPicked
         }).then(() => {
             Navigate("/summary");

@@ -10,7 +10,7 @@ function Plan() {
     const Navigate = useNavigate()
 
     useEffect(() => {
-        axios.get("/api/plan")
+        axios.get("https://multi-step-form-main-b5p1.vercel.app/api/plan")
             .then(response => setPlans(response.data))
             .catch(error => console.error('Error fetching plans:', error));
     }, []);
@@ -18,7 +18,7 @@ function Plan() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        axios.post("/api/plan", {
+        axios.post("https://multi-step-form-main-b5p1.vercel.app/api/plan", {
             plan_option: planOptions,
             period_billing: checked ? "Yearly" : "Monthly",
         }).then(() => {

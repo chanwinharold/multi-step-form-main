@@ -7,7 +7,7 @@ function Summary() {
     const [Data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get("/api/summary")
+        axios.get("https://multi-step-form-main-b5p1.vercel.app/api/summary")
             .then(response => {
                 setData(response.data)
             })
