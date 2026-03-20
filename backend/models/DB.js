@@ -1,13 +1,11 @@
-const sqlite = require("sqlite3");
+const { createClient } = require("@libsql/client");
+const dotenv = require("dotenv")
 
-const db = new sqlite.Database("./models/DB.db",
-    (error) => {
-        if (error) {
-            console.log("​❌ Connexion to Database failed");
-        } else {
-            console.log("✅ Connexion to Database succeeded");
-        }
-    }
-);
+dotenv.config()
+
+const db = createClient({
+    url: process.env.TURSO_URL,
+    authToken: process.env.TURSO_TOKEN
+});
 
 module.exports = db;

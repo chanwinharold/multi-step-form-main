@@ -1,6 +1,6 @@
 const db = require("../models/DB");
 
-exports.addPlan = (req, res, _) => {
+exports.addPlan = async (req, res, _) => {
     const query_1 = `
         UPDATE Users
         SET id_plan = (
@@ -10,7 +10,7 @@ exports.addPlan = (req, res, _) => {
         )
         WHERE id_user = ?
     `;
-    const query_2 = (`
+    const query_2 = `
         UPDATE Users
         SET id_period = (
             SELECT id_period
@@ -18,26 +18,22 @@ exports.addPlan = (req, res, _) => {
             WHERE name = ?
         )
         WHERE id_user = ?
-    `)
+    `;
 
-    db.run(query_1, [req.body.plan_option.title, req.auth.id_user], 
-        (error) => {
-            if (error) res.status(400).json({error});
-            db.run(query_2, [req.body.period_billing, req.auth.id_user],
-                (error) => {
-                  if (error) res.status(400).json({ error });
-                  res.status(201).json({message : "Plan added successfully !"});
-                }
-            );
-        }
-    );
+    try {
+        await db.execute({ sql: query_1, args: [req.body.plan_option.title, req.auth.id_user] });
+        await db.execute({ sql: query_2, args: [req.body.period_billing, req.auth.id_user] });
+        res.status(201).json({ message: "Plan added successfully !" });
+    } catch (error) {
+        res.status(400).json({ error });
+    }
 };
 
-
-exports.showPlans = (req, res, _) => {
-    const query = `SELECT * FROM Plans`;
-    db.all(query, (error, result) => {
-        if (error) res.status(500).json({ error });
-        res.status(200).json(result);
-    })
-}
+exports.showPlans = async (req, res, _) => {
+    try {
+        const { rows } = await db.execute(`SELECT * FROM Plans`);
+        res.status(200).json(rows);
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+};
