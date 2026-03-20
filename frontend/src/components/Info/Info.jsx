@@ -57,7 +57,7 @@ function Info() {
             telError==="" && tel!==""
         ) {
 
-            axios.post("https://multi-step-form-main-b5p1.vercel.app/api/user", {
+            axios.post("/api/user", {
                 name: name,
                 email: email,
                 tel: tel,

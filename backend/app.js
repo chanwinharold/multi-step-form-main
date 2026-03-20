@@ -8,7 +8,10 @@ const summaryRoutes = require("./routes/summary");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://multi-step-form-main-psi.vercel.app",
+    credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 
