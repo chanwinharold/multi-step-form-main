@@ -17,11 +17,6 @@ app.use(cookieParser());
 
 app.use("/api", userRoutes, planRoutes, addonRoutes, summaryRoutes);
 
-// Redirection avant le 404
-app.use((req, res) => {
-    res.redirect(`/api/user`);
-});
-
 app.use((_, res) => {
     res.status(404).json({message : "Routes Introuvables !"});
 });
