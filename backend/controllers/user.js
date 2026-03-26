@@ -11,7 +11,11 @@ exports.createUser = async (req, res, _) => {
             });
 
             if (rows.length === 0) {
-                return res.clearCookie('token').status(401).json({ message: "An authentification Error occurred. Please Try again" });
+                return res.status(401).clearCookie('token', {
+                    httpOnly: true,
+                    secure: true,
+                    sameSite: 'none'
+                }).json({ message: "An authentification Error occurred. Please Try again" });
             }
 
             await db.execute({
@@ -32,9 +36,14 @@ exports.createUser = async (req, res, _) => {
             });
 
             const token = jwt.sign({ id_user: rows[0].id_user }, process.env.MY_SECRET_JWT || "JWT_SECRET_KEY");
-            res.status(201).cookie("token", token, { httpOnly: true }).json({ message: "User added successfully !" });
+            res.status(201).cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'none',
+                maxAge: 24 * 60 * 60 * 1000 // 24 heures
+            }).json({ message: "User added successfully !" });
         }
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(500).json({ error: error.message });
     }
 };
