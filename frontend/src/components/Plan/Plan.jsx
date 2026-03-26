@@ -5,27 +5,18 @@ import axios from "axios";
 function Plan() {
     const [Plans, setPlans] = useState([]);
     const [checked, setChecked] = useState(false);
-    const [planOptions, setPlanOptions] = useState(null);
+    const [planOptions, setPlanOptions] = useState(Plans[0]);
     const [errorMessage, setErrorMessage] = useState(null);
     const Navigate = useNavigate()
 
     useEffect(() => {
         axios.get("/api/plan")
-            .then(response => {
-                setPlans(response.data);
-                setPlanOptions(response.data[0] || null);
-            })
+            .then(response => setPlans(response.data))
             .catch(error => console.error('Error fetching plans:', error));
     }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
-        if (!planOptions) {
-            setErrorMessage("Veuillez sélectionner un plan avant de continuer.");
-            document.getElementById('my_modal_2').showModal();
-            return;
-        }
 
         axios.post("/api/plan", {
             plan_option: planOptions,
@@ -33,7 +24,7 @@ function Plan() {
         }).then(() => {
             Navigate("/addon");
         }).catch(error => {
-            setErrorMessage(error.response?.data?.message || error.message);
+            setErrorMessage(error.response.data.message || error.message);
             document.getElementById('my_modal_2').showModal()
         });
     }
