@@ -21,11 +21,22 @@ exports.addPlan = async (req, res, _) => {
     `;
 
     try {
-        await db.execute({ sql: query_1, args: [req.body.plan_option.title, req.auth.id_user] });
-        await db.execute({ sql: query_2, args: [req.body.period_billing, req.auth.id_user] });
+        const planTitle = req.body?.plan_option?.title;
+        const periodName = req.body?.period_billing;
+        const userId = req.auth?.id_user;
+
+        if (!planTitle || !periodName || !userId) {
+            return res.status(400).json({
+                message: "Données manquantes : plan, période ou utilisateur absent.",
+            });
+        }
+
+        await db.execute({ sql: query_1, args: [planTitle, userId] });
+        await db.execute({ sql: query_2, args: [periodName, userId] });
+
         res.status(201).json({ message: "Plan added successfully !" });
     } catch (error) {
-        res.status(400).json({ error });
+        res.status(400).json({ message: error.message });
     }
 };
 
