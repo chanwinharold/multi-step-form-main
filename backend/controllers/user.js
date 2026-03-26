@@ -1,6 +1,5 @@
 const db = require("../models/DB");
 const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "../.env" });
 
 exports.createUser = async (req, res, _) => {
     delete req.body.id;
