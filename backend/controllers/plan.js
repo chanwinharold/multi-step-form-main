@@ -25,9 +25,21 @@ exports.addPlan = async (req, res, _) => {
         const periodName = req.body?.period_billing;
         const userId = req.auth?.id_user;
 
-        if (!planTitle || !periodName || !userId) {
+        if (!userId) {
+            return res.status(401).json({
+                message: "Utilisateur non authentifié.",
+            });
+        }
+
+        if (!planTitle) {
             return res.status(400).json({
-                message: "Données manquantes : plan, période ou utilisateur absent.",
+                message: "Plan manquant.",
+            });
+        }
+
+        if (!periodName) {
+            return res.status(400).json({
+                message: "Période de facturation manquante.",
             });
         }
 
